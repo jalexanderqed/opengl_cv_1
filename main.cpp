@@ -23,7 +23,7 @@ void draw(){
     glUseProgram(basicProgram);
     glBindVertexArray(triangleVAO);
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
@@ -182,7 +182,6 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
 
         draw();
-
         glfwSwapBuffers(window);
     }
 

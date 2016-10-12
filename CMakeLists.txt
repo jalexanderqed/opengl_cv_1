@@ -19,10 +19,6 @@ target_link_libraries(glhw_01 glfw)
 target_include_directories(glhw_01 PUBLIC ${GLEW_INCLUDE_DIRS})
 target_link_libraries(glhw_01 ${GLEW_LIBRARIES})
 
-#add_custom_target(copy_shaders ALL
-#        command ${CMAKE_COMMAND} -E copy_directory
-#            "${CMAKE_SOURCE_DIR}/shaders" "$<TARGET_FILE_DIR:glhw_01>/shaders"
-#        COMMENT "Copy shaders to build tree"
-#        VERBATIM)
-
-file(COPY shaders DESTINATION .)
+add_custom_command(TARGET glhw_01 PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/shaders $<TARGET_FILE_DIR:glhw_01>/shaders)
