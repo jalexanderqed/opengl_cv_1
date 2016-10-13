@@ -34,11 +34,14 @@ void draw() {
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     glm::mat4 model;
-    model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(1.0f, 0.0f, 0.0f));
-    model = glm::translate(model, glm::vec3(0.0f, 0.8f, 0.0f));
+    //model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(1.0f, 0.0f, 0.0f));
+    glm::mat4 origModel = model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 
     glm::mat4 view;
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
+    GLfloat radius = 10.0f;
+    GLfloat camX = sin(glfwGetTime()) * radius;
+    GLfloat camZ = cos(glfwGetTime()) * radius;
+    view = glm::lookAt(glm::vec3(camX, 2.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 
     glm::mat4 projection = glm::perspective(glm::radians(45.0f),((float)screenWidth) / screenHeight, 0.1f, 100.0f);
 
@@ -50,8 +53,16 @@ void draw() {
 
     model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
     model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::translate(model, glm::vec3(-0.5f, 0.0f, 0.0f));
     glUniformMatrix4fv(modelUniformLocation, 1, GL_FALSE, glm::value_ptr(model));
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
+    model = glm::translate(origModel, glm::vec3(0.0f, 3.0f, 0.0f));
+    glUniformMatrix4fv(modelUniformLocation, 1, GL_FALSE, glm::value_ptr(model));
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+    model = glm::translate(origModel, glm::vec3(0.0f, 3.0f, 3.0f));
+    glUniformMatrix4fv(modelUniformLocation, 1, GL_FALSE, glm::value_ptr(model));
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
     glBindVertexArray(0);
