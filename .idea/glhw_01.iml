@@ -6,6 +6,8 @@
       <sourceFolder url="file://$MODULE_DIR$/util/ShaderProgram.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/shapes/Box.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/shapes/Box.cpp" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
