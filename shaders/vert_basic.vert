@@ -5,9 +5,9 @@ layout(location = 1) in vec3 color;
 
 out vec3 vertexColor;
 
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+uniform mat4 modelMat;
+uniform mat4 viewMat;
+uniform mat4 projectionMat;
 
 void main(){
     gl_Position = projection * view * model * vec4(position, 1.0);
