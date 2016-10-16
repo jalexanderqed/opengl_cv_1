@@ -30,10 +30,10 @@ Box::Box(GLfloat w, GLfloat l, GLfloat h) {
              */
 
             // back wall = 0
-            hWidth, hHeight, hLength, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, // 0
-            -hWidth, hHeight, hLength, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, // 1
-            -hWidth, -hHeight, hLength, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, // 2
-            hWidth, -hHeight, hLength, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, // 3
+            hWidth, hHeight, hLength, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, // 0
+            -hWidth, hHeight, hLength, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, // 1
+            -hWidth, -hHeight, hLength, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, // 2
+            hWidth, -hHeight, hLength, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, // 3
 
             // top = 4
             hWidth, hHeight, hLength, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, // 0
@@ -48,10 +48,10 @@ Box::Box(GLfloat w, GLfloat l, GLfloat h) {
             hWidth, -hHeight, -hLength, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, // 7
 
             // front wall = 12
-            hWidth, hHeight, -hLength, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, // 4
-            -hWidth, hHeight, -hLength, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, // 5
-            -hWidth, -hHeight, -hLength, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, // 6
-            hWidth, -hHeight, -hLength, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, // 7
+            hWidth, hHeight, -hLength, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, // 4
+            -hWidth, hHeight, -hLength, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, // 5
+            -hWidth, -hHeight, -hLength, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, // 6
+            hWidth, -hHeight, -hLength, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, // 7
 
             // left side = 16
             hWidth, hHeight, hLength, 1.0, 0.0, 0.0, 1.0f, 0.0f, 0.0f, // 0

@@ -65,6 +65,11 @@ public:
         updateLights();
     }
 
+    void setDiffuseStrength(GLfloat strength) {
+        diffuseStrength = strength;
+        updateLights();
+    }
+
     void setAmbientStrength(GLfloat strength) {
         ambientStrength = strength;
         updateLights();
@@ -106,13 +111,15 @@ private:
     GLuint projectionUniformLocation;
     GLuint normalModelUniformLocation;
 
-    glm::vec3 diffuseAngle = glm::normalize(glm::vec3(-0.5, -2.5, -0.2));
+    glm::vec3 diffuseAngle = glm::normalize(glm::vec3(4, -10.0, 4));
     glm::vec3 diffuseColor = glm::vec3(1.0, 1.0, 1.0);
+    GLfloat diffuseStrength = 0.5f;
     GLfloat ambientStrength = 0.2f;
     glm::vec3 ambientColor = glm::vec3(1.0, 1.0, 1.0);
 
     GLuint diffuseAngleUniformLocation;
     GLuint diffuseColorUniformLocation;
+    GLuint diffuseStrengthUniformLocation;
     GLuint ambientStrengthUniformLocation;
     GLuint ambientColorUniformLocation;
 };

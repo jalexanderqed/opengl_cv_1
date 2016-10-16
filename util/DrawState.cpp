@@ -80,6 +80,8 @@ void DrawState::updateUniformLocations() {
             glGetUniformLocation(shaders[currentShader].ProgramId, "diffuseAngle");
     diffuseColorUniformLocation =
             glGetUniformLocation(shaders[currentShader].ProgramId, "diffuseColor");
+    diffuseStrengthUniformLocation =
+            glGetUniformLocation(shaders[currentShader].ProgramId, "diffuseStrength");
     ambientStrengthUniformLocation =
             glGetUniformLocation(shaders[currentShader].ProgramId, "ambientStrength");
     ambientColorUniformLocation =
@@ -120,6 +122,7 @@ void DrawState::updateModelMatrix() {
 void DrawState::updateLights(){
     glUniform3fv(diffuseAngleUniformLocation, 1, glm::value_ptr(diffuseAngle));
     glUniform3fv(diffuseColorUniformLocation, 1, glm::value_ptr(diffuseColor));
+    glUniform1f(diffuseStrengthUniformLocation, diffuseStrength);
     glUniform1f(ambientStrengthUniformLocation, ambientStrength);
     glUniform3fv(ambientColorUniformLocation, 1, glm::value_ptr(ambientColor));
 }

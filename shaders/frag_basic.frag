@@ -7,6 +7,7 @@ out vec4 color;
 
 uniform vec3 diffuseAngle;
 uniform vec3 diffuseColor;
+uniform float diffuseStrength;
 uniform float ambientStrength;
 uniform vec3 ambientColor;
 
@@ -16,6 +17,7 @@ void main(){
     vec3 colorRev = -1 * diffuseAngle;
     float diffuseDiff = max(dot(vertexNormal, colorRev), 0.0);
     vec3 diffuse = diffuseDiff * diffuseColor;
+    diffuse = diffuseStrength * diffuse;
 
     vec3 ambient = ambientStrength * ambientColor;
 

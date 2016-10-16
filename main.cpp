@@ -28,27 +28,76 @@ int screenWidth, screenHeight;
 void draw() {
     drawState.useShader(BASIC_PROGRAM);
 
-    GLfloat r = 10.0;
-    GLfloat xPos = r * cos(glfwGetTime());
-    GLfloat yPos = 2.0;
-    GLfloat zPos = r * sin(glfwGetTime());
+    GLfloat r = 20.0;
+    GLfloat speedMult = 0.3;
+    GLfloat xPos = r * cos(glfwGetTime() * speedMult);
+    GLfloat yPos = 10.0;
+    GLfloat zPos = r * sin(glfwGetTime() * speedMult);
 
     /*
-    GLfloat xPos = 2.0;
-    GLfloat yPos = -2.0;
-    GLfloat zPos = 5.0;
+    GLfloat xPos = 15.0;
+    GLfloat yPos = 10.0;
+    GLfloat zPos = 15.0;
      */
 
     drawState.setLocation(xPos, yPos, zPos);
-    drawState.lookAt(glm::vec3(0.0f, 0.0f, 0.0f));
+    drawState.lookAt(glm::vec3(0, 3, 0));
 
-    glm::mat4 model;
-    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+    glm::mat4 model, baseModel;
+    model = glm::scale(model, glm::vec3(3, 0.1f, 3));
     drawState.setModelMat(model);
     box.draw();
 
-    model = glm::translate(model, glm::vec3(2.0f, 0.0f, -2.0f));
-    model = glm::rotate(model, glm::radians(135.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = baseModel = glm::translate(baseModel, glm::vec3(0, 0.1f, 0));
+
+    model = glm::scale(model, glm::vec3(1, 3, 1));
+    baseModel = glm::translate(baseModel, glm::vec3(0, 3, 0));
+
+    model = glm::translate(model, glm::vec3(0, 0.5f, 0));
+    drawState.setModelMat(model);
+    box.draw();
+
+    model = baseModel;
+
+    GLfloat rotation = glfwGetTime();
+    model = glm::rotate(model, rotation, glm::vec3(0, 1, 0));
+    baseModel = glm::rotate(baseModel, rotation, glm::vec3(0, 1, 0));
+
+    model = glm::rotate(model, glm::radians(35.0f), glm::vec3(0, 0, 1));
+    baseModel = glm::rotate(baseModel, glm::radians(35.0f), glm::vec3(0, 0, 1));
+
+    model = glm::scale(model, glm::vec3(0.7f, 5, 0.7f));
+    baseModel = glm::translate(baseModel, glm::vec3(0, 5, 0));
+
+    model = glm::rotate(model, -1 * rotation, glm::vec3(0, 1, 0));
+    baseModel = glm::rotate(baseModel, -1 * rotation, glm::vec3(0, 1, 0));
+
+    model = glm::translate(model, glm::vec3(0, 0.5f, 0));
+    drawState.setModelMat(model);
+    box.draw();
+
+    model = baseModel;
+
+    model = glm::scale(model, glm::vec3(0.7f, 0.2f, 2.5f));
+    baseModel = glm::translate(baseModel, glm::vec3(0, 0.2f, 0));
+
+    model = glm::translate(model, glm::vec3(0, 0.5f, 0));
+    drawState.setModelMat(model);
+    box.draw();
+
+    model = baseModel;
+
+    model = glm::translate(model, glm::vec3(0, 0, -1));
+    model = glm::scale(model, glm::vec3(0.7f, 1, 0.1f));
+    model = glm::translate(model, glm::vec3(0, 0.5f, 0));
+    drawState.setModelMat(model);
+    box.draw();
+
+    model = baseModel;
+
+    model = glm::translate(model, glm::vec3(0, 0, 1));
+    model = glm::scale(model, glm::vec3(0.7f, 1, 0.1f));
+    model = glm::translate(model, glm::vec3(0, 0.5f, 0));
     drawState.setModelMat(model);
     box.draw();
 }
