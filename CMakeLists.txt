@@ -3,7 +3,7 @@ project(glhw_01)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES main.cpp util/ShaderProgram.cpp util/ShaderProgram.h)
+set(SOURCE_FILES main.cpp util/ShaderProgram.cpp util/ShaderProgram.h shapes/Box.cpp shapes/Box.h util/DrawState.cpp util/DrawState.h util/const.h)
 set(glfw3_DIR "bin/glfw/usr/local/lib/cmake/glfw3")
 
 add_executable(glhw_01 ${SOURCE_FILES})

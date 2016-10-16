@@ -2,14 +2,13 @@
 <module type="CPP_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/util/ShaderProgram.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/util/ShaderProgram.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/bin/glfw/usr/local/lib/cmake/glfw3/glfw3Config.cmake" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/bin/glfw/usr/local/lib/cmake/glfw3/glfw3Targets.cmake" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/bin/glfw/usr/local/lib/cmake/glfw3/glfw3Targets-noconfig.cmake" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/bin/glfw/usr/local/lib/cmake/glfw3/glfw3ConfigVersion.cmake" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/shaders" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/util" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/shapes" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/textures" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
@@ -19,12 +18,16 @@
           <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include" />
           <root url="file:///usr/include" />
           <root url="file:///usr/local/include" />
+          <root url="file://$MODULE_DIR$/bin" />
+          <root url="file://$MODULE_DIR$/lib" />
         </CLASSES>
         <SOURCES>
           <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
           <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include" />
           <root url="file:///usr/include" />
           <root url="file:///usr/local/include" />
+          <root url="file://$MODULE_DIR$/bin" />
+          <root url="file://$MODULE_DIR$/lib" />
         </SOURCES>
       </library>
     </orderEntry>

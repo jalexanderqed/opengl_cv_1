@@ -12,86 +12,49 @@
 #include "lib/glm/glm.hpp"
 #include "lib/glm/gtc/matrix_transform.hpp"
 #include "lib/glm/gtc/type_ptr.hpp"
+#include "lib/glm/gtx/polar_coordinates.hpp"
 
-#include "util/ShaderProgram.h"
 #include "shapes/Box.h"
+#include "util/DrawState.h"
 
 using namespace std;
 
-ShaderProgram basicProgram;
-
-GLuint modelUniformLocation;
-GLuint viewUniformLocation;
-GLuint projectionUniformLocation;
+DrawState drawState;
 
 Box box;
 
 int screenWidth, screenHeight;
 
 void draw() {
-    basicProgram.use();
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    drawState.useShader(BASIC_PROGRAM);
 
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f),((float)screenWidth) / screenHeight, 0.1f, 100.0f);
-    glUniformMatrix4fv(projectionUniformLocation, 1, GL_FALSE, glm::value_ptr(projection));
+    GLfloat r = 10.0;
+    GLfloat xPos = r * cos(glfwGetTime());
+    GLfloat yPos = 2.0;
+    GLfloat zPos = r * sin(glfwGetTime());
 
-    glm::mat4 view;
-    GLfloat radius = 10.0f;
-    //GLfloat camX = sin(glfwGetTime()) * radius;
-    //GLfloat camZ = cos(glfwGetTime()) * radius;
-    GLfloat camX = 3;
-    GLfloat camY = 3;
-    GLfloat camZ = -radius;
-    view = glm::lookAt(glm::vec3(camX, camY, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
-    glUniformMatrix4fv(viewUniformLocation, 1, GL_FALSE, glm::value_ptr(view));
+    /*
+    GLfloat xPos = 2.0;
+    GLfloat yPos = -2.0;
+    GLfloat zPos = 5.0;
+     */
+
+    drawState.setLocation(xPos, yPos, zPos);
+    drawState.lookAt(glm::vec3(0.0f, 0.0f, 0.0f));
 
     glm::mat4 model;
-    glm::mat4 origModel = model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+    drawState.setModelMat(model);
+    box.draw();
 
-    glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
-    glm::vec3 toyColor(1.0f, 0.5f, 0.31f);
-
-    glUniformMatrix4fv(modelUniformLocation, 1, GL_FALSE, glm::value_ptr(model));
-
+    model = glm::translate(model, glm::vec3(2.0f, 0.0f, -2.0f));
+    model = glm::rotate(model, glm::radians(135.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    drawState.setModelMat(model);
     box.draw();
 }
 
 void initObjects() {
-<<<<<<< HEAD
     box = Box(1.0f, 1.0f, 1.0f);
-=======
-    glGenVertexArrays(1, &triangleVAO);
-
-    glBindVertexArray(triangleVAO);
-    GLfloat vertices[] = {
-            0.5f, 0.5f, 0.3f, 1.0f, 0.0f, 0.0f,
-            0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0,
-            -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f
-    };
-    GLuint indices[] = {
-            0, 1, 3,
-            1, 2, 3
-    };
-
-    GLuint VBO;
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    GLuint EBO;
-    glGenBuffers(1, &EBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid *) 0);
-    glEnableVertexAttribArray(0);
-
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid *) (3 * sizeof(GLfloat)));
-    glEnableVertexAttribArray(1);
-
-    glBindVertexArray(0);
->>>>>>> bbda93c0b657a97e89c7f69ee2f976afdd4a1bc0
 }
 
 void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mode) {
@@ -100,21 +63,10 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
     }
 }
 
-void windowSizeCallback(GLFWwindow *window, int w, int h){
+void windowSizeCallback(GLFWwindow *window, int w, int h) {
     glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
     glViewport(0, 0, screenWidth, screenHeight);
-}
-
-int createPrograms() {
-    basicProgram = ShaderProgram("shaders/vert_0.vert", "shaders/frag_0.frag");
-
-    return 0;
-}
-
-void initUniforms(){
-    modelUniformLocation = glGetUniformLocation(basicProgram.ProgramId, "model");
-    viewUniformLocation = glGetUniformLocation(basicProgram.ProgramId, "view");
-    projectionUniformLocation = glGetUniformLocation(basicProgram.ProgramId, "projection");
+    drawState.setScreenDims(w, h);
 }
 
 int main() {
@@ -138,19 +90,23 @@ int main() {
         return -1;
     }
 
-    if (createPrograms() != 0) {
-        return -1;
-    }
     initObjects();
-    initUniforms();
+    drawState.init();
+
+    glm::vec3 initialLocation(2.0f, 2.0f, 5.0f);
+
+    drawState.setLocation(initialLocation);
+    drawState.lookAt(glm::vec3(0.0f, 0.0f, 0.0f));
 
     glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
-    glViewport(0, 0, screenWidth, screenHeight);
+    windowSizeCallback(window, screenWidth, screenHeight);
 
     glfwSetKeyCallback(window, keyCallback);
     glfwSetWindowSizeCallback(window, windowSizeCallback);
 
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 
     int lastSecond = 0;
     int frames = 0;
@@ -164,8 +120,8 @@ int main() {
         draw();
         glfwSwapBuffers(window);
 
-        int time = (int)glfwGetTime();
-        if(time > lastSecond){
+        int time = (int) glfwGetTime();
+        if (time > lastSecond) {
             cout << "FPS: " << frames << endl;
             lastSecond = time;
             frames = 0;
