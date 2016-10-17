@@ -3,11 +3,10 @@
 //
 
 #include "ShaderProgram.h"
-#include "util.h"
 
 ShaderProgram::ShaderProgram(const GLchar *vertexPath, const GLchar *fragmentPath) {
-    string vertexCode = readFile(vertexPath);
-    string fragmentCode = readFile(fragmentPath);
+    string vertexCode = myReadFile(vertexPath);
+    string fragmentCode = myReadFile(fragmentPath);
 
     GLint success;
     GLchar infoLog[512];

@@ -47,6 +47,8 @@ public:
 
     void useShader(shaderProgramsEnum shader);
 
+    ShaderProgram getShader(shaderProgramsEnum shader) { return shaders[shader]; }
+
     glm::mat4 getModelMatrix() { return modelMatrix; }
 
     GLfloat getPitch() { return camera.pitch; }

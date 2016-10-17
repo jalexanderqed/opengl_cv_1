@@ -64,6 +64,7 @@ void DrawState::useShader(shaderProgramsEnum shader) {
 
 void DrawState::initShaders() {
     shaders[BASIC_PROGRAM] = ShaderProgram("shaders/vert_basic.vert", "shaders/frag_basic.frag");
+    shaders[MODEL_PROGRAM] = ShaderProgram("shaders/vert_model.vert", "shaders/frag_model.frag");
 }
 
 void DrawState::updateUniformLocations() {

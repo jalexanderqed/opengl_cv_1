@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/shapes" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/lib" />
       <excludeFolder url="file://$MODULE_DIR$/textures" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
@@ -27,7 +28,6 @@
           <root url="file://$USER_HOME$/.CLion2016.2/system/cmake/generated/opengl_0-19d0c280/19d0c280/MinSizeRel/lib/assimp-3.3.1" />
           <root url="file://$USER_HOME$/.CLion2016.2/system/cmake/generated/opengl_0-19d0c280/19d0c280/MinSizeRel/lib/glfw-3.2.1/src" />
           <root url="file://$MODULE_DIR$/bin" />
-          <root url="file://$MODULE_DIR$/lib" />
         </CLASSES>
         <SOURCES>
           <root url="file:///usr/include" />
@@ -43,7 +43,6 @@
           <root url="file://$USER_HOME$/.CLion2016.2/system/cmake/generated/opengl_0-19d0c280/19d0c280/MinSizeRel/lib/assimp-3.3.1" />
           <root url="file://$USER_HOME$/.CLion2016.2/system/cmake/generated/opengl_0-19d0c280/19d0c280/MinSizeRel/lib/glfw-3.2.1/src" />
           <root url="file://$MODULE_DIR$/bin" />
-          <root url="file://$MODULE_DIR$/lib" />
         </SOURCES>
       </library>
     </orderEntry>

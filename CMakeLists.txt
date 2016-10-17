@@ -4,7 +4,7 @@ include(ExternalProject)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES main.cpp util/ShaderProgram.cpp util/ShaderProgram.h shapes/Box.cpp shapes/Box.h util/DrawState.cpp util/DrawState.h util/const.h)
+set(SOURCE_FILES main.cpp util/ShaderProgram.cpp util/ShaderProgram.h shapes/Box.cpp shapes/Box.h util/DrawState.cpp util/DrawState.h util/const.h util/Mesh.cpp util/Mesh.h util/Model.cpp util/Model.h util/util.h util/util.cpp)
 
 add_executable(glhw_01 ${SOURCE_FILES})
 
@@ -19,11 +19,17 @@ set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 add_subdirectory(lib/assimp-3.3.1)
 target_link_libraries(glhw_01 assimp)
 
+add_subdirectory(lib/soil)
+target_link_libraries(glhw_01 SOIL)
+
 find_package(OpenGL REQUIRED)
 target_link_libraries(glhw_01 ${OPENGL_gl_LIBRARY})
 
 find_package(GLEW REQUIRED)
 target_link_libraries(glhw_01 ${GLEW_LIBRARIES})
+
+find_package( OpenCV REQUIRED )
+target_link_libraries(glhw_01 ${OpenCV_LIBS})
 
 add_custom_command(TARGET glhw_01 PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -31,4 +37,4 @@ add_custom_command(TARGET glhw_01 PRE_BUILD
 
 add_custom_command(TARGET glhw_01 PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/textures $<TARGET_FILE_DIR:glhw_01>/textures)
+        ${CMAKE_SOURCE_DIR}/objects $<TARGET_FILE_DIR:glhw_01>/objects)

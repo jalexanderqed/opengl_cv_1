@@ -12,6 +12,7 @@
 
 enum shaderProgramsEnum{
     BASIC_PROGRAM = 0,
+    MODEL_PROGRAM,
     SHADER_MAX
 };
 

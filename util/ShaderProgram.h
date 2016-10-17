@@ -9,6 +9,7 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <string>
+#include "util.h"
 
 class ShaderProgram {
 public:
