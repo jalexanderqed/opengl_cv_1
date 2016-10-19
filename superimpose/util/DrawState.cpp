@@ -29,7 +29,7 @@ void DrawState::setDirection(GLfloat p, GLfloat y) {
     updateViewMatrix();
 }
 
-void DrawState::lookAt(glm::vec3 point){
+void DrawState::lookAt(glm::vec3 point) {
     camera.lookAt = point;
     camera.lookAtPoint = true;
     updateViewMatrix();
@@ -65,6 +65,7 @@ void DrawState::useShader(shaderProgramsEnum shader) {
 void DrawState::initShaders() {
     shaders[BASIC_PROGRAM] = ShaderProgram("shaders/vert_basic.vert", "shaders/frag_basic.frag");
     shaders[MODEL_PROGRAM] = ShaderProgram("shaders/vert_model.vert", "shaders/frag_model.frag");
+    shaders[IMAGE_PROGRAM] = ShaderProgram("shaders/vert_image.vert", "shaders/frag_image.frag");
 }
 
 void DrawState::updateUniformLocations() {
@@ -90,10 +91,9 @@ void DrawState::updateUniformLocations() {
 }
 
 void DrawState::updateViewMatrix() {
-    if(camera.lookAtPoint) {
+    if (camera.lookAtPoint) {
         viewMatrix = glm::lookAt(camera.position, camera.lookAt, camera.up);
-    }
-    else{
+    } else {
         glm::vec3 front;
         front.x = cos(glm::radians(camera.yaw)) * cos(glm::radians(camera.pitch));
         front.y = sin(glm::radians(camera.pitch));
@@ -120,7 +120,7 @@ void DrawState::updateModelMatrix() {
     glUniformMatrix3fv(normalModelUniformLocation, 1, GL_FALSE, glm::value_ptr(normalModelMatrix));
 }
 
-void DrawState::updateLights(){
+void DrawState::updateLights() {
     glUniform3fv(diffuseAngleUniformLocation, 1, glm::value_ptr(diffuseAngle));
     glUniform3fv(diffuseColorUniformLocation, 1, glm::value_ptr(diffuseColor));
     glUniform1f(diffuseStrengthUniformLocation, diffuseStrength);

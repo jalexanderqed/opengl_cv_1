@@ -1,0 +1,3 @@
+#!/bin/bash
+
+./build/cv_calibrate checkerboardFromVideo/frame0054.jpg checkerboardFromVideo/frame0070.jpg checkerboardFromVideo/frame0107.jpg checkerboardFromVideo/frame0124.jpg checkerboardFromVideo/frame0141.jpg checkerboardFromVideo/frame0161.jpg checkerboardFromVideo/frame0174.jpg checkerboardFromVideo/frame0190.jpg checkerboardFromVideo/frame0228.jpg checkerboardFromVideo/frame0249.jpg checkerboardFromVideo/frame0274.jpg

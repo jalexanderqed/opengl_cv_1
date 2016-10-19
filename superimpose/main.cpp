@@ -10,6 +10,7 @@
 #include <iostream>
 #include <sstream>
 #include <cmath>
+#include <zconf.h>
 
 #include "lib/glm/glm.hpp"
 #include "lib/glm/gtc/matrix_transform.hpp"
@@ -19,6 +20,7 @@
 #include "shapes/Box.h"
 #include "util/DrawState.h"
 #include "util/Model.h"
+#include "shapes/ImageSquare.h"
 
 using namespace std;
 using namespace cv;
@@ -31,12 +33,31 @@ Model nanosuit;
 
 int screenWidth, screenHeight;
 
+Mat image;
+GLuint imageTexture;
+ImageSquare imageSquare;
+VideoCapture capture;
+
+void setupNextImage();
+
 void draw() {
+    setupNextImage();
+    drawState.useShader(IMAGE_PROGRAM);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, imageTexture);
+    glUniform1i(glGetUniformLocation(drawState.getShader(IMAGE_PROGRAM).ProgramId, "imageTexture"), 0);
+
+    drawState.setLocation(0, 0, 1);
+    drawState.lookAt(glm::vec3(0, 0, 0));
+
+    imageSquare.draw();
+
     GLfloat r = 5.0;
     GLfloat speedMult = 1.0;
     GLfloat xPos = r * cos(glfwGetTime() * speedMult);
     GLfloat yPos = 1.0;
     GLfloat zPos = r * sin(glfwGetTime() * speedMult);
+
 
     /*
     GLfloat xPos = 15.0;
@@ -63,9 +84,53 @@ void draw() {
     //box.draw();
 }
 
+string type2str(int type) {
+    string r;
+
+    uchar depth = type & CV_MAT_DEPTH_MASK;
+    uchar chans = 1 + (type >> CV_CN_SHIFT);
+
+    switch ( depth ) {
+        case CV_8U:  r = "8U"; break;
+        case CV_8S:  r = "8S"; break;
+        case CV_16U: r = "16U"; break;
+        case CV_16S: r = "16S"; break;
+        case CV_32S: r = "32S"; break;
+        case CV_32F: r = "32F"; break;
+        case CV_64F: r = "64F"; break;
+        default:     r = "User"; break;
+    }
+
+    r += "C";
+    r += (chans+'0');
+
+    return r;
+}
+
+void setupNextImage(){
+    capture >> image;
+    glGenTextures(1, &imageTexture);
+    glBindTexture(GL_TEXTURE_2D, imageTexture);
+
+    // Set texture interpolation methods for minification and magnification
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Set texture clamping method
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+    Size s = image.size();
+    cv::flip(image, image, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, s.height, s.width, 0, GL_BGR, GL_UNSIGNED_BYTE, image.ptr());
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 void initObjects() {
     box = Box(1.0f, 1.0f, 1.0f);
     nanosuit = Model("objects/nanosuit/nanosuit.obj");
+
+    imageSquare = ImageSquare(true);
 }
 
 void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mode) {
@@ -81,34 +146,33 @@ void windowSizeCallback(GLFWwindow *window, int w, int h) {
 }
 
 int main(int argc, char **argv) {
-    /*
-    if (argc != 2) {
-        printf("usage: DisplayImage.out <Image_Path>\n");
-        return -1;
+
+    if ( argc == 1 ) {
+        // start video capture from camera
+        capture = VideoCapture(0);
+    } else if ( argc == 2 ) {
+        // start video capture from file
+        capture = VideoCapture(argv[1]);
+    } else {
+        fprintf( stderr, "usage: %s [<filename>]\n", argv[0] );
+        return 1;
     }
 
-    Mat image;
-    image = imread(argv[1], 1);
-
-    if (!image.data) {
-        printf("No image data \n");
-        return -1;
+    // check that video is opened
+    if ( !capture.isOpened() ) {
+        fprintf( stderr, "could not start video capture\n" );
+        return 1;
     }
-    namedWindow("Display Image", WINDOW_AUTOSIZE);
-    imshow("Display Image", image);
 
-    waitKey(0);
-
-    return 0;
-     */
+    capture >> image;
 
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-    GLFWwindow *window = glfwCreateWindow(800, 800, "glhw_01", nullptr, nullptr);
+    GLFWwindow *window = glfwCreateWindow(image.size().width, image.size().height, "glhw_01", nullptr, nullptr);
     if (window == nullptr) {
         cout << "Failed to create GLFW window" << endl;
         glfwTerminate();
@@ -138,7 +202,7 @@ int main(int argc, char **argv) {
 
     glEnable(GL_DEPTH_TEST);
     //glEnable(GL_CULL_FACE);
-    //glCullFace(GL_BACK);
+    glCullFace(GL_BACK);
 
     int lastSecond = 0;
     int frames = 0;
@@ -147,6 +211,7 @@ int main(int argc, char **argv) {
         glfwPollEvents();
 
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+        glClearDepth(1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         draw();
