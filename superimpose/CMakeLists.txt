@@ -20,7 +20,8 @@ add_subdirectory(lib/assimp-3.3.1)
 target_link_libraries(glhw_01 assimp)
 
 add_subdirectory(lib/soil)
-target_link_libraries(glhw_01 SOIL)
+#target_include_directories(glhw_01 PUBLIC ${SOIL_INCLUDE_DIRS})
+target_link_libraries(glhw_01 soil)
 
 find_package(OpenGL REQUIRED)
 target_link_libraries(glhw_01 ${OPENGL_gl_LIBRARY})
