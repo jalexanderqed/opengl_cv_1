@@ -57,7 +57,6 @@ int main(int argc, char **argv) {
             cap >> frame; // get a new frame from camera
             imageSize = frame.size();
             imshow("Capture", frame);
-            int key;
             if (waitKey(30) % 256 == 32) { // space key
                 vector<Point2f> corners;
 
@@ -98,18 +97,19 @@ int main(int argc, char **argv) {
          << "\n" << fovy
          << "\n" << focalLength
          << "\n" << cameraMatrix.at<double>(0, 2) << ", " << cameraMatrix.at<double>(1, 2)
-         << "\n" << principalPoint.x << ", " << principalPoint.y
          << "\n" << cameraMatrix.at<double>(0, 0)
          << "\n" << cameraMatrix.at<double>(1, 1)
          << "\n" << distortionCoeffs.at<double>(0, 0)
          << "\n" << distortionCoeffs.at<double>(0, 1)
          << "\n" << distortionCoeffs.at<double>(0, 2)
          << "\n" << distortionCoeffs.at<double>(0, 3)
+         << "\n" << distortionCoeffs.at<double>(0, 4)
          << endl;
 
     for (int i = 0; i < allCorners.size(); i++) {
-        for(int j = 0; j < allGoalSpacePoints[i].size(); j++) {
-            Mat objectPoints(1, 3, CV_64F);
+        double totalErrSquare = 0;
+        for (int j = 0; j < allGoalSpacePoints[i].size(); j++) {
+            Mat objectPoints(1, 3, CV_64FC1);
             objectPoints.at<double>(0, 0) = allGoalSpacePoints[i][j].x;
             objectPoints.at<double>(0, 1) = allGoalSpacePoints[i][j].y;
             objectPoints.at<double>(0, 2) = allGoalSpacePoints[i][j].z;
@@ -127,12 +127,23 @@ int main(int argc, char **argv) {
 
             Mat errorVec = corner - guess;
             double error = norm(errorVec);
-            cout << endl;
-            cout << corner << endl;
-            cout << guess << endl;
-            cout << errorVec << endl;
-            cout << error << endl;
+            totalErrSquare += error * error;
         }
+        double average = sqrt(totalErrSquare / allGoalSpacePoints[i].size());
+        cerr << "Total square" << i << ": " << totalErrSquare
+             << "\nAverage pixel error" << i << ": " << average << endl;
+    }
+
+    return 0;
+
+    namedWindow("Capture", 1);
+    VideoCapture cap(0);
+    while (true) {
+        Mat frame, distorted;
+        cap >> distorted; // get a new frame from camera
+        undistort(distorted, frame, cameraMatrix, distortionCoeffs);
+        imshow("Capture", frame);
+        if (waitKey(30) >= 0) break;
     }
 
     return 0;

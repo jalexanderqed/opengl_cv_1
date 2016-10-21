@@ -82,6 +82,9 @@ public:
         updateLights();
     }
 
+    void useViewMat(glm::mat4 v);
+    void useProjectionMat(glm::mat4 p);
+
 private:
     void initShaders();
 

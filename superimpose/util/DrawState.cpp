@@ -66,6 +66,7 @@ void DrawState::initShaders() {
     shaders[BASIC_PROGRAM] = ShaderProgram("shaders/vert_basic.vert", "shaders/frag_basic.frag");
     shaders[MODEL_PROGRAM] = ShaderProgram("shaders/vert_model.vert", "shaders/frag_model.frag");
     shaders[IMAGE_PROGRAM] = ShaderProgram("shaders/vert_image.vert", "shaders/frag_image.frag");
+    shaders[BASIC_NO_COLOR_PROGRAM] = ShaderProgram("shaders/vert_basic_no_color.vert", "shaders/frag_basic_no_color.frag");
 }
 
 void DrawState::updateUniformLocations() {
@@ -111,7 +112,7 @@ void DrawState::updateViewMatrix() {
 
 void DrawState::updateProjectionMatrix() {
     projectionMatrix =
-            glm::perspective(glm::radians(45.0f), ((float) screenWidth) / screenHeight, 0.1f, 100.0f);
+            glm::perspective(glm::radians(45.0f), ((float) screenWidth) / screenHeight, 0.05f, 500.0f);
     glUniformMatrix4fv(projectionUniformLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 }
 
@@ -126,4 +127,14 @@ void DrawState::updateLights() {
     glUniform1f(diffuseStrengthUniformLocation, diffuseStrength);
     glUniform1f(ambientStrengthUniformLocation, ambientStrength);
     glUniform3fv(ambientColorUniformLocation, 1, glm::value_ptr(ambientColor));
+}
+
+void DrawState::useViewMat(glm::mat4 v){
+    viewMatrix = v;
+    glUniformMatrix4fv(viewUniformLocation, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+}
+
+void DrawState::useProjectionMat(glm::mat4 p){
+    projectionMatrix = p;
+    glUniformMatrix4fv(projectionUniformLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 }
