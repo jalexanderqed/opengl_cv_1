@@ -18,13 +18,21 @@
 #include "util/Model.h"
 #include "shapes/ImageSquare.h"
 #include "util/teapot.h"
+#include "shapes/Sphere.h"
 
 using namespace std;
 using namespace cv;
 
+enum Mode {
+    SPHERE_MODE,
+    TEAPOT_MODE,
+    SUIT_MODE
+} currentMode;
+
 DrawState drawState;
 
 Box box;
+Sphere sphere;
 
 Model nanosuit;
 teapot tea;
@@ -49,6 +57,8 @@ bool foundBoard = false;
 
 void setupNextImage();
 
+void setupMatrices();
+
 void draw() {
     setupNextImage();
     drawState.useShader(IMAGE_PROGRAM);
@@ -61,30 +71,46 @@ void draw() {
     drawState.setModelMat(glm::mat4());
 
     imageSquare.draw();
-
-    if(foundBoard) {
+    if (foundBoard) {
         glm::mat4 model;
-        drawState.useShader(BASIC_NO_COLOR_PROGRAM);
-
-        glm::mat4 pMat = cameraMatrix;
-        pMat = glm::scale(pMat, glm::vec3(1.27f, 1.27f, 1));
-        pMat = glm::translate(pMat, glm::vec3(0.38f, 0.17f, 0));
-        drawState.useProjectionMat(pMat);
-        drawState.useViewMat(extrinsicMatrix);
-
-        model = glm::translate(model, glm::vec3(2.5, 3.5, 0.5f));
-        model = glm::scale(model, glm::vec3(20, 20, 20));
-        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1, 0, 0));
-        drawState.setModelMat(model);
-        tea.draw();
-        //box.draw();
-/*
-        drawState.useShader(MODEL_PROGRAM);
-        model = glm::rotate(glm::radians(90.0f), glm::vec3(1, 0, 0));
-        model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-        nanosuit.Draw(drawState.getShader(MODEL_PROGRAM));
-        */
+        if (currentMode == TEAPOT_MODE) {
+            drawState.useShader(BASIC_NO_COLOR_PROGRAM);
+            setupMatrices();
+            model = glm::translate(model, glm::vec3(2.5, 3.5, 0.5f));
+            model = glm::scale(model, glm::vec3(20, 20, 20));
+            model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1, 0, 0));
+            drawState.setModelMat(model);
+            tea.draw();
+        } else if (currentMode == SPHERE_MODE) {
+            drawState.useShader(BASIC_NO_COLOR_PROGRAM);
+            setupMatrices();
+            for (int i = 0; i < patternSize.width; i++) {
+                for (int j = 0; j < patternSize.height; j++) {
+                    model = glm::mat4();
+                    model = glm::translate(model, glm::vec3(j, i, 0));
+                    drawState.setModelMat(model);
+                    sphere.draw();
+                }
+            }
+        } else if (currentMode == SUIT_MODE) {
+            drawState.useShader(MODEL_PROGRAM);
+            setupMatrices();
+            model = glm::translate(model, glm::vec3(2.5, 3.5, 0.5f));
+            model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1, 0, 0));
+            //model = glm::rotate(glm::radians(180.0f), glm::vec3(0, 0, 1));
+            model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+            drawState.setModelMat(model);
+            nanosuit.Draw(drawState.getShader(MODEL_PROGRAM));
+        }
     }
+}
+
+void setupMatrices() {
+    glm::mat4 pMat = cameraMatrix;
+    pMat = glm::scale(pMat, glm::vec3(1.27f, 1.27f, 1));
+    pMat = glm::translate(pMat, glm::vec3(0.38f, 0.17f, 0));
+    drawState.useProjectionMat(pMat);
+    drawState.useViewMat(extrinsicMatrix);
 }
 
 void setupNextImage() {
@@ -132,8 +158,9 @@ void setupNextImage() {
 
         extrinsicMatrix = glm::mat4();
         extrinsicMatrix = glm::scale(glm::vec3(1, -1, -1));
-        extrinsicMatrix = glm::translate(extrinsicMatrix, glm::vec3(tvec.at<double>(0, 0), tvec.at<double>(1, 0), tvec.at<double>(2, 0)));
-        extrinsicMatrix = glm::rotate(extrinsicMatrix, (GLfloat)norm(rvec),
+        extrinsicMatrix = glm::translate(extrinsicMatrix, glm::vec3(tvec.at<double>(0, 0), tvec.at<double>(1, 0),
+                                                                    tvec.at<double>(2, 0)));
+        extrinsicMatrix = glm::rotate(extrinsicMatrix, (GLfloat) norm(rvec),
                                       glm::vec3(rvec.at<double>(0, 0), rvec.at<double>(0, 1), rvec.at<double>(0, 2)));
     }
 
@@ -156,6 +183,7 @@ void setupNextImage() {
 
 void initObjects() {
     box = Box(1.0f, 1.0f, 1.0f);
+    sphere = Sphere(0.2f);
     nanosuit = Model("objects/nanosuit/nanosuit.obj");
 
     imageSquare = ImageSquare(true);
@@ -171,6 +199,22 @@ void initObjects() {
 void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mode) {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, GL_TRUE);
+    }
+    if(key == GLFW_KEY_M && action == GLFW_PRESS){
+        switch(currentMode){
+            case SPHERE_MODE:
+                currentMode = TEAPOT_MODE;
+                break;
+            case TEAPOT_MODE:
+                currentMode = SUIT_MODE;
+                break;
+            case SUIT_MODE:
+                currentMode = SPHERE_MODE;
+                break;
+            default:
+                currentMode = TEAPOT_MODE;
+                break;
+        }
     }
 }
 
@@ -294,6 +338,7 @@ int main(int argc, char **argv) {
 
     int lastSecond = 0;
     int frames = 0;
+    currentMode = SPHERE_MODE;
 
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();

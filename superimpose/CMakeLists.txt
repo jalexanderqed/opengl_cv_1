@@ -4,7 +4,7 @@ include(ExternalProject)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES main.cpp util/ShaderProgram.cpp util/ShaderProgram.h shapes/Box.cpp shapes/Box.h util/DrawState.cpp util/DrawState.h util/const.h util/Mesh.cpp util/Mesh.h util/Model.cpp util/Model.h util/util.h util/util.cpp shapes/ImageSquare.cpp shapes/ImageSquare.h util/teapot.cpp util/teapot.h objects/teapot_obj.h)
+set(SOURCE_FILES main.cpp util/ShaderProgram.cpp util/ShaderProgram.h shapes/Box.cpp shapes/Box.h util/DrawState.cpp util/DrawState.h util/const.h util/Mesh.cpp util/Mesh.h util/Model.cpp util/Model.h util/util.h util/util.cpp shapes/ImageSquare.cpp shapes/ImageSquare.h util/teapot.cpp util/teapot.h objects/teapot_obj.h shapes/Sphere.cpp shapes/Sphere.h)
 
 add_executable(glhw_01 ${SOURCE_FILES})
 
