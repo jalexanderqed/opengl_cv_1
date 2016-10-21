@@ -122,7 +122,7 @@ void setupNextImage(){
 
     Size s = image.size();
     cv::flip(image, image, 0);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, s.height, s.width, 0, GL_BGR, GL_UNSIGNED_BYTE, image.ptr());
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, s.width, s.height, 0, GL_BGR, GL_UNSIGNED_BYTE, image.ptr());
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
