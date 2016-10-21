@@ -84,29 +84,6 @@ void draw() {
     //box.draw();
 }
 
-string type2str(int type) {
-    string r;
-
-    uchar depth = type & CV_MAT_DEPTH_MASK;
-    uchar chans = 1 + (type >> CV_CN_SHIFT);
-
-    switch ( depth ) {
-        case CV_8U:  r = "8U"; break;
-        case CV_8S:  r = "8S"; break;
-        case CV_16U: r = "16U"; break;
-        case CV_16S: r = "16S"; break;
-        case CV_32S: r = "32S"; break;
-        case CV_32F: r = "32F"; break;
-        case CV_64F: r = "64F"; break;
-        default:     r = "User"; break;
-    }
-
-    r += "C";
-    r += (chans+'0');
-
-    return r;
-}
-
 void setupNextImage(){
     capture >> image;
     glGenTextures(1, &imageTexture);
@@ -122,7 +99,7 @@ void setupNextImage(){
 
     Size s = image.size();
     cv::flip(image, image, 0);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, s.height, s.width, 0, GL_BGR, GL_UNSIGNED_BYTE, image.ptr());
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, s.width, s.height, 0, GL_BGR, GL_UNSIGNED_BYTE, image.ptr());
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 

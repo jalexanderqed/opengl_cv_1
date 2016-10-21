@@ -45,22 +45,20 @@ int main(int argc, char **argv) {
                 allGoalSpacePoints.push_back(getGoalSpacePoints(patternSize));
             }
         }
-    }
-    else{
+    } else {
         VideoCapture cap(0); // open the default camera
-        if(!cap.isOpened()) {  // check if we succeeded
+        if (!cap.isOpened()) {  // check if we succeeded
             return -1;
         }
 
-        namedWindow("Capture",1);
-        while(allCorners.size() < 10)
-        {
+        namedWindow("Capture", 1);
+        while (allCorners.size() < 10) {
             Mat frame;
             cap >> frame; // get a new frame from camera
             imageSize = frame.size();
             imshow("Capture", frame);
             int key;
-            if(waitKey(30) % 256 == 32){ // space key
+            if (waitKey(30) % 256 == 32) { // space key
                 vector<Point2f> corners;
 
                 bool patternfound = findChessboardCorners(frame, patternSize, corners,
@@ -79,7 +77,7 @@ int main(int argc, char **argv) {
     Mat cameraMatrix, distortionCoeffs;
     vector<Mat> rvecs, tvecs;
     double error = calibrateCamera(allGoalSpacePoints, allCorners, imageSize,
-                                   cameraMatrix, distortionCoeffs, rvecs, tvecs, CV_CALIB_RATIONAL_MODEL);
+                                   cameraMatrix, distortionCoeffs, rvecs, tvecs);
     /*
     cout << "Width: " << distortionCoeffs.size().width << " Height: " << distortionCoeffs.size().height << endl;
     cout << "OpenCV calculated error: " << error << endl;
@@ -99,6 +97,7 @@ int main(int argc, char **argv) {
     cout << fovx
          << "\n" << fovy
          << "\n" << focalLength
+         << "\n" << cameraMatrix.at<double>(0, 2) << ", " << cameraMatrix.at<double>(1, 2)
          << "\n" << principalPoint.x << ", " << principalPoint.y
          << "\n" << cameraMatrix.at<double>(0, 0)
          << "\n" << cameraMatrix.at<double>(1, 1)
@@ -108,7 +107,33 @@ int main(int argc, char **argv) {
          << "\n" << distortionCoeffs.at<double>(0, 3)
          << endl;
 
-    //return 0;
+    for (int i = 0; i < allCorners.size(); i++) {
+        for(int j = 0; j < allGoalSpacePoints[i].size(); j++) {
+            Mat objectPoints(1, 3, CV_64F);
+            objectPoints.at<double>(0, 0) = allGoalSpacePoints[i][j].x;
+            objectPoints.at<double>(0, 1) = allGoalSpacePoints[i][j].y;
+            objectPoints.at<double>(0, 2) = allGoalSpacePoints[i][j].z;
+
+            Mat transformed;
+            projectPoints(objectPoints, rvecs[i], tvecs[i], cameraMatrix, distortionCoeffs, transformed);
+
+            Mat guess(2, 1, CV_64FC1);
+            guess.at<double>(0, 0) = transformed.at<double>(0, 0);
+            guess.at<double>(1, 0) = transformed.at<double>(0, 1);
+
+            Mat c = Mat(allCorners[i][j]);
+            Mat corner(guess.size(), CV_64FC1);
+            c.convertTo(corner, CV_64FC1);
+
+            Mat errorVec = corner - guess;
+            double error = norm(errorVec);
+            cout << endl;
+            cout << corner << endl;
+            cout << guess << endl;
+            cout << errorVec << endl;
+            cout << error << endl;
+        }
+    }
 
     return 0;
 }
