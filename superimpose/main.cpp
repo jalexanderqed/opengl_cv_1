@@ -97,7 +97,6 @@ void draw() {
             setupMatrices();
             model = glm::translate(model, glm::vec3(2.5, 3.5, 0.5f));
             model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1, 0, 0));
-            //model = glm::rotate(glm::radians(180.0f), glm::vec3(0, 0, 1));
             model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
             drawState.setModelMat(model);
             nanosuit.Draw(drawState.getShader(MODEL_PROGRAM));
@@ -107,8 +106,8 @@ void draw() {
 
 void setupMatrices() {
     glm::mat4 pMat = cameraMatrix;
-    pMat = glm::scale(pMat, glm::vec3(1.27f, 1.27f, 1));
-    pMat = glm::translate(pMat, glm::vec3(0.38f, 0.17f, 0));
+    pMat = glm::scale(pMat, glm::vec3(1.28f, 1.28f, 1));
+    pMat = glm::translate(pMat, glm::vec3(0.2f, -0.15f, 0));
     drawState.useProjectionMat(pMat);
     drawState.useViewMat(extrinsicMatrix);
 }
