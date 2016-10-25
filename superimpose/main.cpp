@@ -128,6 +128,13 @@ void setupNextImage() {
         Rodrigues(rvec, temp);
         hconcat(temp, tvec, temp);
 
+        vector<cv::Point2f> projected;
+        cv::projectPoints(goalSpacePoints, rvec, tvec, cvCameraMatrix, Mat(), projected);
+        for(int i = 0; i < projected.size(); i++){
+            cv::Point2f pt = projected.at(i);
+            cv::circle(image, pt, 5, cv::Scalar(0, 0, 255));
+        }
+
         Mat eMat(3, 4, CV_32FC1);
         temp.convertTo(eMat, CV_32FC1);
         vconcat(eMat, Mat::zeros(1, 4, CV_32FC1), eMat);
