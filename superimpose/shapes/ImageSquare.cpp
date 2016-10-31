@@ -6,11 +6,13 @@
 #include "ImageSquare.h"
 
 ImageSquare::ImageSquare(bool placeHolder) {
+    GLfloat pos = 1.0f;
+    GLfloat depth = 0;
     GLfloat vertices[] = {
-            1, 1, -450, 1, 1,
-            1, -1, -450, 1, 0,
-            -1, -1, -450, 0, 0,
-            -1, 1, -450, 0, 1
+            pos, pos, -depth, 1, 1,
+            pos, -pos, -depth, 1, 0,
+            -pos, -pos, -depth, 0, 0,
+            -pos, pos, -depth, 0, 1
     };
     GLuint indices[] = {
             0, 1, 2,

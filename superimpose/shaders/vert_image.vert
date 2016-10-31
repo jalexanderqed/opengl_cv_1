@@ -10,9 +10,8 @@ uniform mat4 projectionMat;
 
 void main()
 {
-    gl_Position = projectionMat * viewMat * modelMat * vec4(position, 1.0f);
-    gl_Position = normalize(gl_Position);
-    gl_Position.x = position.x / 1.45;
-    gl_Position.y = position.y / 1.45;
+    gl_Position = vec4(position, 1.0f);
+    gl_Position.x = position.x;
+    gl_Position.y = position.y;
     TexCoords = texCoords;
 }

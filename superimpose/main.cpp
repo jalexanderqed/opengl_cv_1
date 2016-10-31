@@ -41,7 +41,7 @@ int screenWidth, screenHeight;
 
 glm::mat4 cameraMatrix;
 float fx, fy, cx, cy, fovx, fovy;
-glm::mat4 oCamMat;
+int imageWidth, imageHeight;
 Mat cvCameraMatrix;
 Mat distortionCoeffs;
 
@@ -54,6 +54,13 @@ vector<Point3f> goalSpacePoints;
 Size patternSize(8, 6);
 glm::mat4 extrinsicMatrix;
 bool foundBoard = false;
+
+glm::mat4 xyFlipMat(
+        0, 1, 0, 0,
+        1, 0, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+);
 
 void setupNextImage();
 
@@ -71,12 +78,14 @@ void draw() {
     drawState.setModelMat(glm::mat4());
 
     imageSquare.draw();
+    glClear(GL_DEPTH_BUFFER_BIT); // Because of this call to clear the depth buffer, the image MUST be drawn first
+
     if (foundBoard) {
-        glm::mat4 model;
         if (currentMode == TEAPOT_MODE) {
             drawState.useShader(BASIC_NO_COLOR_PROGRAM);
             setupMatrices();
-            model = glm::translate(model, glm::vec3(2.5, 3.5, 0.5f));
+            glm::mat4 model = extrinsicMatrix;
+            model = glm::translate(model, glm::vec3(3.5, 2.5, 0.5f));
             model = glm::scale(model, glm::vec3(20, 20, 20));
             model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1, 0, 0));
             drawState.setModelMat(model);
@@ -86,8 +95,8 @@ void draw() {
             setupMatrices();
             for (int i = 0; i < patternSize.width; i++) {
                 for (int j = 0; j < patternSize.height; j++) {
-                    model = glm::mat4();
-                    model = glm::translate(model, glm::vec3(j, i, 0));
+                    glm::mat4 model = extrinsicMatrix;
+                    model = glm::translate(model, glm::vec3(i, j, 0));
                     drawState.setModelMat(model);
                     sphere.draw();
                 }
@@ -95,7 +104,9 @@ void draw() {
         } else if (currentMode == SUIT_MODE) {
             drawState.useShader(MODEL_PROGRAM);
             setupMatrices();
-            model = glm::translate(model, glm::vec3(2.5, 3.5, 0.5f));
+            glm::mat4 model = extrinsicMatrix;
+            model = glm::translate(model, glm::vec3(3.5, 2.5, 0.5f));
+            model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0, 0, 1));
             model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1, 0, 0));
             model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
             drawState.setModelMat(model);
@@ -105,11 +116,9 @@ void draw() {
 }
 
 void setupMatrices() {
-    glm::mat4 pMat = cameraMatrix;
-    pMat = glm::scale(pMat, glm::vec3(1.28f, 1.28f, 1));
-    pMat = glm::translate(pMat, glm::vec3(0.2f, -0.15f, 0));
-    drawState.useProjectionMat(pMat);
-    drawState.useViewMat(extrinsicMatrix);
+    glm::mat4 vMat;
+    drawState.useProjectionMat(cameraMatrix);
+    drawState.useViewMat(vMat);
 }
 
 void setupNextImage() {
@@ -123,51 +132,26 @@ void setupNextImage() {
                                        CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE
                                        | CALIB_CB_FAST_CHECK);
     if (foundBoard) {
-        Mat rvec, tvec, temp;
+        Mat rvec, tvec;
         solvePnP(goalSpacePoints, corners, cvCameraMatrix, Mat(), rvec, tvec);
-        Rodrigues(rvec, temp);
-        hconcat(temp, tvec, temp);
 
         vector<cv::Point2f> projected;
         cv::projectPoints(goalSpacePoints, rvec, tvec, cvCameraMatrix, Mat(), projected);
-        for(int i = 0; i < projected.size(); i++){
+        for (int i = 0; i < projected.size(); i++) {
             cv::Point2f pt = projected.at(i);
             cv::circle(image, pt, 5, cv::Scalar(0, 0, 255));
         }
 
-        Mat eMat(3, 4, CV_32FC1);
-        temp.convertTo(eMat, CV_32FC1);
-        vconcat(eMat, Mat::zeros(1, 4, CV_32FC1), eMat);
-        eMat.at<float>(3, 3) = 1;
-
-        /*
-        extrinsicMatrix = glm::mat4(
-                eMat.at<float>(0, 0), eMat.at<float>(1, 0), eMat.at<float>(2, 0), eMat.at<float>(3, 0),
-                eMat.at<float>(0, 1), eMat.at<float>(1, 1), eMat.at<float>(2, 1), eMat.at<float>(3, 1),
-                eMat.at<float>(0, 2), eMat.at<float>(1, 2), eMat.at<float>(2, 2), eMat.at<float>(3, 2),
-                eMat.at<float>(0, 3), eMat.at<float>(1, 3), eMat.at<float>(2, 3), eMat.at<float>(3, 3)
-        );
-
-        glm::vec4 testP;
-        testP.x = goalSpacePoints[0].x;
-        testP.y = goalSpacePoints[0].y;
-        testP.z = 5;
-        testP.w = 1;
-
-        glm::vec4 res1 = cameraMatrix * extrinsicMatrix * testP;
-        res1 = res1 / res1[2];
-        cout << glm::to_string(extrinsicMatrix) << endl;
-        cout << glm::to_string(res1) << endl;
-        cout << corners[0] << endl;
-        cout << "VERSUS" << endl;
-         */
-
         extrinsicMatrix = glm::mat4();
-        extrinsicMatrix = glm::scale(glm::vec3(1, -1, -1));
+        extrinsicMatrix = glm::scale(glm::vec3(-1, -1, -1));
         extrinsicMatrix = glm::translate(extrinsicMatrix, glm::vec3(tvec.at<double>(0, 0), tvec.at<double>(1, 0),
                                                                     tvec.at<double>(2, 0)));
         extrinsicMatrix = glm::rotate(extrinsicMatrix, (GLfloat) norm(rvec),
                                       glm::vec3(rvec.at<double>(0, 0), rvec.at<double>(0, 1), rvec.at<double>(0, 2)));
+        extrinsicMatrix = extrinsicMatrix * xyFlipMat;
+
+        glm::vec4 point(0, 0, 0, 1);
+        glm::vec4 loc = cameraMatrix * extrinsicMatrix * point;
     }
 
     glGenTextures(1, &imageTexture);
@@ -206,8 +190,8 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, GL_TRUE);
     }
-    if(key == GLFW_KEY_M && action == GLFW_PRESS){
-        switch(currentMode){
+    if (key == GLFW_KEY_M && action == GLFW_PRESS) {
+        switch (currentMode) {
             case SPHERE_MODE:
                 currentMode = TEAPOT_MODE;
                 break;
@@ -265,7 +249,24 @@ void readCameraParams() {
     distortionCoeffs.at<double>(0, 3) = p2;
     distortionCoeffs.at<double>(0, 4) = k3;
 
-    cameraMatrix = glm::perspective(glm::radians(fovx), fovx / fovy, 0.05f, 500.0f);
+    imageWidth = image.size().width;
+    imageHeight = image.size().height;
+
+    glm::mat4 intMatrix(
+            fx, 0, 0, 0,
+            0, fy, 0, 0,
+            cx, cy, 1, 0,
+            0, 0, 0, 1
+    );
+
+    glm::mat4 convertMatrix(
+            -2.0f / imageWidth, 0, 0, 0,
+            0, 2.0f / imageHeight, 0, 0,
+            1, -1, 0.95, -1,
+            0, 0, -0.05, 0
+    );
+
+    cameraMatrix = convertMatrix * intMatrix;
 }
 
 int main(int argc, char **argv) {
@@ -280,29 +281,14 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    readCameraParams();
-
     // check that video is opened
     if (!capture.isOpened()) {
         fprintf(stderr, "could not start video capture\n");
         return 1;
     }
 
-
-/*
-    namedWindow("Capture", 1);
-    VideoCapture cap(argv[1]);
-    while (true) {
-        Mat frame, distorted;
-        setupNextImage();
-        imshow("Capture", image);
-        if (waitKey(3) >= 0) break;
-    }
-
-    return 0;
-*/
-
     capture >> image;
+    readCameraParams();
 
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

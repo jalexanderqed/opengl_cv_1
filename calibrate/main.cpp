@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
         }
 
         namedWindow("Capture", 1);
-        while (allCorners.size() < 10) {
+        while (allCorners.size() < 20) {
             Mat frame;
             cap >> frame; // get a new frame from camera
             imageSize = frame.size();

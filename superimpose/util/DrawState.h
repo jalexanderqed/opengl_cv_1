@@ -116,7 +116,7 @@ private:
     GLuint projectionUniformLocation;
     GLuint normalModelUniformLocation;
 
-    glm::vec3 diffuseAngle = glm::normalize(glm::vec3(4, -10.0, 4));
+    glm::vec3 diffuseAngle = glm::normalize(glm::vec3(-4, -10.0, -4));
     glm::vec3 diffuseColor = glm::vec3(1.0, 1.0, 1.0);
     GLfloat diffuseStrength = 0.5f;
     GLfloat ambientStrength = 0.2f;
