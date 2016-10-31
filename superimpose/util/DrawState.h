@@ -35,7 +35,7 @@ public:
 
     void setDirection(GLfloat p, GLfloat y);
 
-    void lookAt(glm::vec3 point);
+    void lookAt(GLfloat x, GLfloat y, GLfloat z);
 
     void setLocation(GLfloat x, GLfloat y, GLfloat z);
 
@@ -116,7 +116,7 @@ private:
     GLuint projectionUniformLocation;
     GLuint normalModelUniformLocation;
 
-    glm::vec3 diffuseAngle = glm::normalize(glm::vec3(-4, -10.0, -4));
+    glm::vec3 diffuseAngle = glm::normalize(glm::vec3(2, -2, -4));
     glm::vec3 diffuseColor = glm::vec3(1.0, 1.0, 1.0);
     GLfloat diffuseStrength = 0.5f;
     GLfloat ambientStrength = 0.2f;

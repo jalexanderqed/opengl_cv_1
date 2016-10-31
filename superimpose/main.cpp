@@ -17,7 +17,6 @@
 #include "util/DrawState.h"
 #include "util/Model.h"
 #include "shapes/ImageSquare.h"
-#include "util/teapot.h"
 #include "shapes/Sphere.h"
 
 using namespace std;
@@ -35,7 +34,7 @@ Box box;
 Sphere sphere;
 
 Model nanosuit;
-teapot tea;
+Model tea;
 
 int screenWidth, screenHeight;
 
@@ -73,8 +72,6 @@ void draw() {
     glBindTexture(GL_TEXTURE_2D, imageTexture);
     glUniform1i(glGetUniformLocation(drawState.getShader(IMAGE_PROGRAM).ProgramId, "imageTexture"), 0);
 
-    drawState.setLocation(0, 0, 1);
-    drawState.lookAt(glm::vec3(0, 0, 0));
     drawState.setModelMat(glm::mat4());
 
     imageSquare.draw();
@@ -86,10 +83,11 @@ void draw() {
             setupMatrices();
             glm::mat4 model = extrinsicMatrix;
             model = glm::translate(model, glm::vec3(3.5, 2.5, 0.5f));
-            model = glm::scale(model, glm::vec3(20, 20, 20));
+            model = glm::rotate(model, (GLfloat)glfwGetTime(), glm::vec3(0, 0, 1));
             model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1, 0, 0));
+            model = glm::scale(model, glm::vec3(2, 2, 2));
             drawState.setModelMat(model);
-            tea.draw();
+            tea.Draw(drawState.getShader(BASIC_NO_COLOR_PROGRAM));
         } else if (currentMode == SPHERE_MODE) {
             drawState.useShader(BASIC_NO_COLOR_PROGRAM);
             setupMatrices();
@@ -177,7 +175,7 @@ void initObjects() {
     nanosuit = Model("objects/nanosuit/nanosuit.obj");
 
     imageSquare = ImageSquare(true);
-    tea = teapot(true);
+    tea = Model("objects/wt_teapot.obj");
 
     for (int i = 0; i < patternSize.height; i++) {
         for (int j = 0; j < patternSize.width; j++) {
@@ -312,11 +310,6 @@ int main(int argc, char **argv) {
 
     initObjects();
     drawState.init();
-
-    glm::vec3 initialLocation(2.0f, 2.0f, 5.0f);
-
-    drawState.setLocation(initialLocation);
-    drawState.lookAt(glm::vec3(0.0f, 0.0f, 0.0f));
 
     glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
     windowSizeCallback(window, screenWidth, screenHeight);

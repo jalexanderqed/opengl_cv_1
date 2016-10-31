@@ -5,7 +5,6 @@
       <sourceFolder url="file://$MODULE_DIR$/shaders" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/objects/teapot_obj.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/shapes" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/build" />

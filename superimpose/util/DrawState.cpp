@@ -29,8 +29,8 @@ void DrawState::setDirection(GLfloat p, GLfloat y) {
     updateViewMatrix();
 }
 
-void DrawState::lookAt(glm::vec3 point) {
-    camera.lookAt = point;
+void DrawState::lookAt(GLfloat x, GLfloat y, GLfloat z) {
+    camera.lookAt = glm::vec3(x, y, z);
     camera.lookAtPoint = true;
     updateViewMatrix();
 }
