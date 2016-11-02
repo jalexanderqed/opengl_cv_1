@@ -271,6 +271,8 @@ int main(int argc, char **argv) {
     if (argc == 1) {
         // start video capture from camera
         capture = VideoCapture(0);
+        capture.set(CV_CAP_PROP_FRAME_WIDTH, 640);
+        capture.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
     } else if (argc == 2) {
         // start video capture from file
         capture = VideoCapture(argv[1]);
@@ -292,7 +294,7 @@ int main(int argc, char **argv) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
     GLFWwindow *window = glfwCreateWindow(image.size().width, image.size().height, "glhw_01", nullptr, nullptr);
     if (window == nullptr) {

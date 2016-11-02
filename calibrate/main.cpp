@@ -47,6 +47,8 @@ int main(int argc, char **argv) {
         }
     } else {
         VideoCapture cap(0); // open the default camera
+        cap.set(CV_CAP_PROP_FRAME_WIDTH, 640);
+        cap.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
         if (!cap.isOpened()) {  // check if we succeeded
             return -1;
         }
@@ -77,17 +79,6 @@ int main(int argc, char **argv) {
     vector<Mat> rvecs, tvecs;
     double error = calibrateCamera(allGoalSpacePoints, allCorners, imageSize,
                                    cameraMatrix, distortionCoeffs, rvecs, tvecs);
-    /*
-    cout << "Width: " << distortionCoeffs.size().width << " Height: " << distortionCoeffs.size().height << endl;
-    cout << "OpenCV calculated error: " << error << endl;
-    cout << "Matrix" << endl;
-    cout << cameraMatrix.at<double>(0, 0) << "\t" << cameraMatrix.at<double>(0, 1) << "\t"
-         << cameraMatrix.at<double>(0, 2) << "\n"
-         << cameraMatrix.at<double>(1, 0) << "\t" << cameraMatrix.at<double>(1, 1) << "\t"
-         << cameraMatrix.at<double>(1, 2) << "\n"
-         << cameraMatrix.at<double>(1, 0) << "\t" << cameraMatrix.at<double>(2, 1) << "\t"
-         << cameraMatrix.at<double>(2, 2) << endl;
-         */
 
     double fovx, fovy, focalLength, aspectRatio;
     Point2d principalPoint;
