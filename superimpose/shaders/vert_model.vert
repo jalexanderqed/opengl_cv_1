@@ -15,5 +15,5 @@ void main()
 {
     gl_Position = projectionMat * viewMat * modelMat * vec4(position, 1.0f);
     TexCoords = texCoords;
-    vertexNormal = normalModelMat * normalize(normal);
+    vertexNormal = normalize(normalModelMat * normal);
 }

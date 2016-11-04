@@ -31,8 +31,8 @@
       <config projectName="glhw_01" targetName="sharing" />
       <config projectName="glhw_01" targetName="clipboard" />
       <config projectName="glhw_01" targetName="timeout" />
-      <config projectName="glhw_01" targetName="wave" />
       <config projectName="glhw_01" targetName="iconify" />
+      <config projectName="glhw_01" targetName="wave" />
       <config projectName="glhw_01" targetName="soil" />
       <config projectName="glhw_01" targetName="tearing" />
       <config projectName="glhw_01" targetName="unit" />
@@ -48,10 +48,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="043347cd-24c2-40d3-bc3b-773afd71b551" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../calibrate/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../calibrate/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../calibrate/main.cpp" afterPath="$PROJECT_DIR$/../calibrate/main.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/shaders/frag_basic_global_color_no_light.frag" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/shaders/frag_basic_no_color.frag" afterPath="$PROJECT_DIR$/shaders/frag_basic_global_color.frag" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/shaders/vert_basic_no_color.vert" afterPath="$PROJECT_DIR$/shaders/vert_basic_global_color.vert" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/main.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shaders/vert_basic.vert" afterPath="$PROJECT_DIR$/shaders/vert_basic.vert" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shaders/vert_model.vert" afterPath="$PROJECT_DIR$/shaders/vert_model.vert" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/DrawState.cpp" afterPath="$PROJECT_DIR$/util/DrawState.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/DrawState.h" afterPath="$PROJECT_DIR$/util/DrawState.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/const.h" afterPath="$PROJECT_DIR$/util/const.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/util.h" afterPath="$PROJECT_DIR$/util/util.h" />
     </list>
     <ignored path="opengl_0.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -74,8 +81,8 @@
       <file leaf-file-name="main.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="136" column="47" selection-start-line="136" selection-start-column="47" selection-end-line="136" selection-end-column="47" />
+            <state relative-caret-position="468">
+              <caret line="92" column="28" selection-start-line="92" selection-start-column="28" selection-end-line="92" selection-end-column="28" />
               <folding>
                 <element signature="e#21#41#0" expanded="true" />
               </folding>
@@ -83,11 +90,41 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="frag_basic_global_color_no_light.frag" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/shaders/frag_basic_global_color_no_light.frag">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="20" column="33" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="util.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/util/util.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="432">
+              <caret line="30" column="58" selection-start-line="30" selection-start-column="58" selection-end-line="30" selection-end-column="58" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Model.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/util/Model.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="630">
+              <caret line="35" column="50" selection-start-line="35" selection-start-column="50" selection-end-line="35" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="DrawState.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util/DrawState.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2232">
-              <caret line="124" column="29" selection-start-line="124" selection-start-column="17" selection-end-line="124" selection-end-column="29" />
+            <state relative-caret-position="586">
+              <caret line="66" column="97" selection-start-line="66" selection-start-column="97" selection-end-line="66" selection-end-column="97" />
               <folding />
             </state>
           </provider>
@@ -96,38 +133,8 @@
       <file leaf-file-name="DrawState.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util/DrawState.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1692">
-              <caret line="94" column="33" selection-start-line="94" selection-start-column="33" selection-end-line="94" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="6" column="271" selection-start-line="6" selection-start-column="271" selection-end-line="6" selection-end-column="271" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="frag_model.frag" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/shaders/frag_model.frag">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="31" column="9" selection-start-line="31" selection-start-column="9" selection-end-line="31" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="vert_model.vert" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/shaders/vert_model.vert">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="3" column="40" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
+            <state relative-caret-position="861">
+              <caret line="126" column="33" selection-start-line="126" selection-start-column="33" selection-end-line="126" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -145,7 +152,6 @@
         <option value="$PROJECT_DIR$/shaders/vert_0.vert" />
         <option value="$PROJECT_DIR$/build/shaders/frag_0.frag" />
         <option value="$PROJECT_DIR$/build/shaders/frag_basic.frag" />
-        <option value="$PROJECT_DIR$/shaders/vert_basic.vert" />
         <option value="$PROJECT_DIR$/util/Mesh.cpp" />
         <option value="$PROJECT_DIR$/cmake/Modules/FindSOIL.cmake" />
         <option value="$PROJECT_DIR$/util/ShaderProgram.cpp" />
@@ -153,28 +159,31 @@
         <option value="$PROJECT_DIR$/util/util.cpp" />
         <option value="$PROJECT_DIR$/util/Model.cpp" />
         <option value="$PROJECT_DIR$/shaders/frag_basic.frag" />
-        <option value="$PROJECT_DIR$/util/util.h" />
         <option value="$PROJECT_DIR$/util/Model.h" />
         <option value="$PROJECT_DIR$/shapes/ImageSquare.h" />
         <option value="$PROJECT_DIR$/shaders/frag_image.frag" />
         <option value="$PROJECT_DIR$/util/Mesh.h" />
         <option value="$PROJECT_DIR$/objects/teapot_obj.cpp" />
         <option value="$PROJECT_DIR$/util/teapot.h" />
-        <option value="$PROJECT_DIR$/util/const.h" />
         <option value="$PROJECT_DIR$/objects/teapot_obj.h" />
         <option value="$PROJECT_DIR$/shapes/Box.cpp" />
         <option value="$PROJECT_DIR$/util/teapot.cpp" />
         <option value="$PROJECT_DIR$/shapes/Sphere.h" />
         <option value="$PROJECT_DIR$/shapes/Sphere.cpp" />
-        <option value="$PROJECT_DIR$/shaders/vert_basic_no_color.vert" />
         <option value="$PROJECT_DIR$/shaders/vert_image.vert" />
         <option value="$PROJECT_DIR$/shapes/ImageSquare.cpp" />
-        <option value="$PROJECT_DIR$/shaders/vert_model.vert" />
         <option value="$PROJECT_DIR$/shaders/frag_basic_no_color.frag" />
         <option value="$PROJECT_DIR$/shaders/frag_model.frag" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/shaders/vert_basic_no_color.vert" />
+        <option value="$PROJECT_DIR$/shaders/vert_model.vert" />
+        <option value="$PROJECT_DIR$/shaders/vert_basic.vert" />
+        <option value="$PROJECT_DIR$/shaders/vert_basic_global_color.vert" />
+        <option value="$PROJECT_DIR$/util/util.h" />
+        <option value="$PROJECT_DIR$/util/const.h" />
         <option value="$PROJECT_DIR$/util/DrawState.cpp" />
         <option value="$PROJECT_DIR$/util/DrawState.h" />
+        <option value="$PROJECT_DIR$/shaders/frag_basic_global_color_no_light.frag" />
         <option value="$PROJECT_DIR$/main.cpp" />
       </list>
     </option>
@@ -303,8 +312,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/objects" />
       <recent name="$PROJECT_DIR$/shaders" />
+      <recent name="$PROJECT_DIR$/objects" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Build All">
@@ -687,12 +696,13 @@
       <workItem from="1477421502083" duration="356000" />
       <workItem from="1477850209672" duration="26780000" />
       <workItem from="1478053578487" duration="1202000" />
-      <workItem from="1478062449272" duration="621000" />
+      <workItem from="1478062449272" duration="4600000" />
+      <workItem from="1478237021382" duration="12016000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="122399000" />
+    <option name="totallyTimeSpent" value="138394000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1280" y="24" width="1920" height="1056" extended-state="6" />
@@ -702,20 +712,20 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985386" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985386" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985386" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31002086" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985386" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985386" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -756,16 +766,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#21#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp" />
     <entry file="file://$PROJECT_DIR$/shapes/Box.cpp" />
     <entry file="file://$PROJECT_DIR$/shaders/vert_basic.vert" />
@@ -786,7 +786,6 @@
     <entry file="file://$PROJECT_DIR$/lib/assimp-3.3.1/code/SMDLoader.h" />
     <entry file="file://$PROJECT_DIR$/util/ShaderProgram.h" />
     <entry file="file://$PROJECT_DIR$/util/util.cpp" />
-    <entry file="file://$PROJECT_DIR$/util/util.h" />
     <entry file="file://$PROJECT_DIR$/shaders/frag_basic.frag" />
     <entry file="file://$PROJECT_DIR$/superimpose/CMakeLists.txt" />
     <entry file="file://$PROJECT_DIR$/shapes/ImageSquare.h">
@@ -813,13 +812,6 @@
     <entry file="file://$PROJECT_DIR$/objects/teapot.h" />
     <entry file="file://$PROJECT_DIR$/objects/teapot_obj.cpp" />
     <entry file="file://$PROJECT_DIR$/util/teapot.h" />
-    <entry file="file://$PROJECT_DIR$/util/const.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/shapes/Box.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="324">
@@ -855,20 +847,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shaders/vert_image.vert">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shaders/vert_basic.vert">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/shapes/ImageSquare.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="118">
@@ -878,65 +856,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/util/teapot.cpp" />
     <entry file="file://$PROJECT_DIR$/objects/teapot_obj.h" />
-    <entry file="file://$PROJECT_DIR$/util/Model.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="35" column="50" selection-start-line="35" selection-start-column="50" selection-end-line="35" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/util/Model.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="396">
           <caret line="44" column="5" selection-start-line="44" selection-start-column="5" selection-end-line="44" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shaders/frag_basic_no_color.frag">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shaders/vert_basic_no_color.vert">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="27" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="136" column="47" selection-start-line="136" selection-start-column="47" selection-end-line="136" selection-end-column="47" />
-          <folding>
-            <element signature="e#21#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util/DrawState.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2232">
-          <caret line="124" column="29" selection-start-line="124" selection-start-column="17" selection-end-line="124" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util/DrawState.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1692">
-          <caret line="94" column="33" selection-start-line="94" selection-start-column="33" selection-end-line="94" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="271" selection-start-line="6" selection-start-column="271" selection-end-line="6" selection-end-column="271" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -950,9 +873,107 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/shaders/vert_model.vert">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="40" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
+        <state relative-caret-position="306">
+          <caret line="17" column="54" selection-start-line="17" selection-start-column="54" selection-end-line="17" selection-end-column="54" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shaders/vert_basic.vert">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="54" selection-start-line="17" selection-start-column="54" selection-end-line="17" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shaders/vert_image.vert">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="271" selection-start-line="6" selection-start-column="271" selection-end-line="6" selection-end-column="271" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shaders/frag_basic_global_color.frag">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="36" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shaders/vert_basic_global_color.vert">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="27" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util/const.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util/Model.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="35" column="50" selection-start-line="35" selection-start-column="50" selection-end-line="35" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util/util.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="30" column="58" selection-start-line="30" selection-start-column="58" selection-end-line="30" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util/DrawState.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="861">
+          <caret line="126" column="33" selection-start-line="126" selection-start-column="33" selection-end-line="126" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util/DrawState.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="586">
+          <caret line="66" column="97" selection-start-line="66" selection-start-column="97" selection-end-line="66" selection-end-column="97" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shaders/frag_basic_global_color_no_light.frag">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="20" column="33" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="92" column="28" selection-start-line="92" selection-start-column="28" selection-end-line="92" selection-end-column="28" />
+          <folding>
+            <element signature="e#21#41#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

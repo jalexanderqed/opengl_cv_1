@@ -23,10 +23,13 @@ using namespace std;
 using namespace cv;
 
 enum Mode {
-    SPHERE_MODE,
+    DOT_MODE,
     TEAPOT_MODE,
     SUIT_MODE
 } currentMode;
+
+bool faceRectOn = true;
+bool rotatingObjectsOn = true;
 
 DrawState drawState;
 
@@ -49,10 +52,16 @@ GLuint imageTexture;
 ImageSquare imageSquare;
 VideoCapture capture;
 
-vector<Point3f> goalSpacePoints;
-Size patternSize(8, 6);
 glm::mat4 extrinsicMatrix;
-bool foundBoard = false;
+
+bool foundFace = false;
+int faceX, faceY, imageFaceWidth, imageFaceHeight;
+const float faceWidthMM = 200;
+float faceHeightMM = 200;
+Point2f faceLocation;
+float faceDist;
+
+CascadeClassifier classifier("/usr/share/opencv/haarcascades/haarcascade_frontalface_default.xml");
 
 glm::mat4 xyFlipMat(
         0, 1, 0, 0,
@@ -77,38 +86,72 @@ void draw() {
     imageSquare.draw();
     glClear(GL_DEPTH_BUFFER_BIT); // Because of this call to clear the depth buffer, the image MUST be drawn first
 
-    if (foundBoard) {
-        if (currentMode == TEAPOT_MODE) {
-            drawState.useShader(BASIC_NO_COLOR_PROGRAM);
-            setupMatrices();
-            glm::mat4 model = extrinsicMatrix;
-            model = glm::translate(model, glm::vec3(3.5, 2.5, 0.5f));
-            model = glm::rotate(model, (GLfloat)glfwGetTime(), glm::vec3(0, 0, 1));
-            model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1, 0, 0));
-            model = glm::scale(model, glm::vec3(2, 2, 2));
-            drawState.setModelMat(model);
-            tea.Draw(drawState.getShader(BASIC_NO_COLOR_PROGRAM));
-        } else if (currentMode == SPHERE_MODE) {
-            drawState.useShader(BASIC_NO_COLOR_PROGRAM);
-            setupMatrices();
-            for (int i = 0; i < patternSize.width; i++) {
-                for (int j = 0; j < patternSize.height; j++) {
-                    glm::mat4 model = extrinsicMatrix;
-                    model = glm::translate(model, glm::vec3(i, j, 0));
-                    drawState.setModelMat(model);
-                    sphere.draw();
-                }
+    if (foundFace) {
+        glm::mat4 centeredModel, model;
+        centeredModel = glm::translate(extrinsicMatrix, glm::vec3(-1 * faceLocation.x, -1 * faceLocation.y, 0));
+
+        glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+        drawState.useShader(BASIC_GLOBAL_COLOR_NO_LIGHT_PROGRAM);
+        setupMatrices();
+        drawState.setGlobalColor(glm::vec3(1, 1, 1));
+        model = glm::scale(centeredModel, glm::vec3(faceWidthMM, faceHeightMM, 0.01f));
+        drawState.setModelMat(model);
+        box.draw();
+        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
+        if(rotatingObjectsOn) {
+            if (currentMode == TEAPOT_MODE) {
+                drawState.useShader(BASIC_GLOBAL_COLOR_PROGRAM);
+                setupMatrices();
+                drawState.setGlobalColor(glm::vec3(1, 1, 1));
+                model = centeredModel;
+
+                float r = 1.5f * faceWidthMM;
+                float theta = glfwGetTime() * 2;
+                model = glm::rotate(model, theta, glm::vec3(0, 1, 0));
+                model = glm::translate(model, glm::vec3(r, 0, 0));
+                //model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1, 0, 0));
+                model = glm::scale(model, glm::vec3(50, 50, 50));
+                drawState.setModelMat(model);
+                tea.Draw(drawState.getShader(BASIC_GLOBAL_COLOR_PROGRAM));
             }
-        } else if (currentMode == SUIT_MODE) {
-            drawState.useShader(MODEL_PROGRAM);
+            else if (currentMode == SUIT_MODE) {
+                drawState.useShader(MODEL_PROGRAM);
+                setupMatrices();
+                glm::mat4 model = extrinsicMatrix;
+                model = glm::translate(model, glm::vec3(3.5, 2.5, 0.5f));
+                model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0, 0, 1));
+                model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1, 0, 0));
+                model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+                drawState.setModelMat(model);
+                nanosuit.Draw(drawState.getShader(MODEL_PROGRAM));
+            }
+        }
+
+        if (faceRectOn){
+            drawState.useShader(BASIC_GLOBAL_COLOR_NO_LIGHT_PROGRAM);
             setupMatrices();
-            glm::mat4 model = extrinsicMatrix;
-            model = glm::translate(model, glm::vec3(3.5, 2.5, 0.5f));
-            model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0, 0, 1));
-            model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1, 0, 0));
-            model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+            drawState.setGlobalColor(glm::vec3(1, 0, 0));
+
+            model = glm::translate(centeredModel, glm::vec3(faceWidthMM / 2, faceHeightMM / 2, 0));
+            model = glm::scale(model, glm::vec3(5, 5, 5));
             drawState.setModelMat(model);
-            nanosuit.Draw(drawState.getShader(MODEL_PROGRAM));
+            sphere.draw();
+
+            model = glm::translate(centeredModel, glm::vec3(-1 * faceWidthMM / 2, faceHeightMM / 2, 0));
+            model = glm::scale(model, glm::vec3(5, 5, 5));
+            drawState.setModelMat(model);
+            sphere.draw();
+
+            model = glm::translate(centeredModel, glm::vec3(-1 * faceWidthMM / 2, -1 * faceHeightMM / 2, 0));
+            model = glm::scale(model, glm::vec3(5, 5, 5));
+            drawState.setModelMat(model);
+            sphere.draw();
+
+            model = glm::translate(centeredModel, glm::vec3(faceWidthMM / 2, -1 * faceHeightMM / 2, 0));
+            model = glm::scale(model, glm::vec3(5, 5, 5));
+            drawState.setModelMat(model);
+            sphere.draw();
         }
     }
 }
@@ -125,31 +168,33 @@ void setupNextImage() {
 
     undistort(distorted, image, cvCameraMatrix, distortionCoeffs);
 
-    vector<Point2f> corners;
-    foundBoard = findChessboardCorners(image, patternSize, corners,
-                                       CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE
-                                       | CALIB_CB_FAST_CHECK);
-    if (foundBoard) {
-        Mat rvec, tvec;
-        solvePnP(goalSpacePoints, corners, cvCameraMatrix, Mat(), rvec, tvec);
+    Mat grayImage, smallGrayImage;
+    cvtColor(image, grayImage, CV_BGR2GRAY);
+    Size newSize(320, (int)((320.0f / image.size().width) * image.size().height));
+    resize(grayImage, smallGrayImage, newSize);
 
-        vector<cv::Point2f> projected;
-        cv::projectPoints(goalSpacePoints, rvec, tvec, cvCameraMatrix, Mat(), projected);
-        for (int i = 0; i < projected.size(); i++) {
-            cv::Point2f pt = projected.at(i);
-            cv::circle(image, pt, 5, cv::Scalar(0, 0, 255));
+    vector<Rect> faces;
+    classifier.detectMultiScale(smallGrayImage, faces, 1.1, 2, CV_HAAR_SCALE_IMAGE | CV_HAAR_FIND_BIGGEST_OBJECT);
+
+    foundFace = faces.size() > 0;
+    if(foundFace){
+        faceX = 2 * faces[0].x;
+        faceY = 2 * faces[0].y;
+        imageFaceWidth = 2 * faces[0].width;
+        imageFaceHeight = 2 * faces[0].height;
+        Point2f imageFaceCenter(faceX + imageFaceWidth / 2.0f, faceY + imageFaceHeight / 2.0f);
+        Point2f imageCenter(cx, cy);
+
+        if(faceRectOn){
+            rectangle(image, Point2f(faceX, faceY), Point2f(faceX + imageFaceWidth, faceY + imageFaceHeight), Scalar(0, 255, 255));
         }
 
-        extrinsicMatrix = glm::mat4();
-        extrinsicMatrix = glm::scale(glm::vec3(-1, -1, -1));
-        extrinsicMatrix = glm::translate(extrinsicMatrix, glm::vec3(tvec.at<double>(0, 0), tvec.at<double>(1, 0),
-                                                                    tvec.at<double>(2, 0)));
-        extrinsicMatrix = glm::rotate(extrinsicMatrix, (GLfloat) norm(rvec),
-                                      glm::vec3(rvec.at<double>(0, 0), rvec.at<double>(0, 1), rvec.at<double>(0, 2)));
-        extrinsicMatrix = extrinsicMatrix * xyFlipMat;
+        faceDist = fx * faceWidthMM / imageFaceWidth;
+        faceHeightMM =  faceDist * imageFaceHeight / fy;
+        extrinsicMatrix = glm::translate(glm::mat4(), glm::vec3(0, 0, -1 * faceDist));
 
-        glm::vec4 point(0, 0, 0, 1);
-        glm::vec4 loc = cameraMatrix * extrinsicMatrix * point;
+        faceLocation.x = (imageFaceCenter.x - imageCenter.x) * (faceHeightMM / imageFaceHeight);
+        faceLocation.y = (imageFaceCenter.y - imageCenter.y) * (faceHeightMM / imageFaceHeight);
     }
 
     glGenTextures(1, &imageTexture);
@@ -171,38 +216,38 @@ void setupNextImage() {
 
 void initObjects() {
     box = Box(1.0f, 1.0f, 1.0f);
-    sphere = Sphere(0.2f);
+    sphere = Sphere(1.0f);
     nanosuit = Model("objects/nanosuit/nanosuit.obj");
 
     imageSquare = ImageSquare(true);
     tea = Model("objects/wt_teapot.obj");
-
-    for (int i = 0; i < patternSize.height; i++) {
-        for (int j = 0; j < patternSize.width; j++) {
-            goalSpacePoints.push_back(Point3f(i, j, 0));
-        }
-    }
 }
 
 void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mode) {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, GL_TRUE);
     }
-    if (key == GLFW_KEY_M && action == GLFW_PRESS) {
+    else if (key == GLFW_KEY_M && action == GLFW_PRESS) {
         switch (currentMode) {
-            case SPHERE_MODE:
+            case DOT_MODE:
                 currentMode = TEAPOT_MODE;
                 break;
             case TEAPOT_MODE:
                 currentMode = SUIT_MODE;
                 break;
             case SUIT_MODE:
-                currentMode = SPHERE_MODE;
+                currentMode = DOT_MODE;
                 break;
             default:
                 currentMode = TEAPOT_MODE;
                 break;
         }
+    }
+    else if(key == GLFW_KEY_R && action == GLFW_PRESS){
+        faceRectOn = !faceRectOn;
+    }
+    else if(key == GLFW_KEY_O && action == GLFW_PRESS){
+        rotatingObjectsOn = !rotatingObjectsOn;
     }
 }
 
@@ -325,7 +370,7 @@ int main(int argc, char **argv) {
 
     int lastSecond = 0;
     int frames = 0;
-    currentMode = SPHERE_MODE;
+    currentMode = TEAPOT_MODE;
 
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();

@@ -59,27 +59,32 @@ public:
 
     void setDiffuseAngle(glm::vec3 angle) {
         diffuseAngle = glm::normalize(angle);
-        updateLights();
+        updateLightsAndColors();
     }
 
     void setDiffuseColor(glm::vec3 color) {
         diffuseColor = color;
-        updateLights();
+        updateLightsAndColors();
     }
 
     void setDiffuseStrength(GLfloat strength) {
         diffuseStrength = strength;
-        updateLights();
+        updateLightsAndColors();
     }
 
     void setAmbientStrength(GLfloat strength) {
         ambientStrength = strength;
-        updateLights();
+        updateLightsAndColors();
     }
 
     void setAmbientColor(glm::vec3 color) {
         ambientColor = color;
-        updateLights();
+        updateLightsAndColors();
+    }
+
+    void setGlobalColor(glm::vec3 color){
+        globalColor = color;
+        updateLightsAndColors();
     }
 
     void useViewMat(glm::mat4 v);
@@ -96,7 +101,7 @@ private:
 
     void updateModelMatrix();
 
-    void updateLights();
+    void updateLightsAndColors();
 
     ShaderProgram shaders[SHADER_MAX];
 
@@ -115,12 +120,14 @@ private:
     GLuint viewUniformLocation;
     GLuint projectionUniformLocation;
     GLuint normalModelUniformLocation;
+    GLuint globalColorUniformLocation;
 
     glm::vec3 diffuseAngle = glm::normalize(glm::vec3(2, -2, -4));
     glm::vec3 diffuseColor = glm::vec3(1.0, 1.0, 1.0);
-    GLfloat diffuseStrength = 0.5f;
+    GLfloat diffuseStrength = 0.8f;
     GLfloat ambientStrength = 0.2f;
     glm::vec3 ambientColor = glm::vec3(1.0, 1.0, 1.0);
+    glm::vec3 globalColor = glm::vec3(0.7, 0.7, 0.7);
 
     GLuint diffuseAngleUniformLocation;
     GLuint diffuseColorUniformLocation;

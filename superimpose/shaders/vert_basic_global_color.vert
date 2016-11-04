@@ -10,9 +10,10 @@ uniform mat4 modelMat;
 uniform mat4 viewMat;
 uniform mat4 projectionMat;
 uniform mat3 normalModelMat;
+uniform vec3 globalColorVar;
 
 void main(){
     gl_Position = projectionMat * viewMat * modelMat * vec4(position, 1.0);
-    vertexColor = vec3(0.7f, 0.7f, 0.7f);
-    vertexNormal = normalModelMat * normalize(normal);
+    vertexColor = globalColorVar;
+    vertexNormal = normalize(normalModelMat * normal);
 }

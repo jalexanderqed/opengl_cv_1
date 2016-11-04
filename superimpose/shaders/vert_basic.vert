@@ -15,5 +15,5 @@ uniform mat3 normalModelMat;
 void main(){
     gl_Position = projectionMat * viewMat * modelMat * vec4(position, 1.0);
     vertexColor = color;
-    vertexNormal = normalModelMat * normalize(normal);
+    vertexNormal = normalize(normalModelMat * normal);
 }

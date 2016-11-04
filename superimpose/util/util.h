@@ -30,16 +30,4 @@ string myReadFile(string name);
 
 GLint TextureFromFile(const char* path, string directory);
 
-enum vertex_shaders {
-    BASIC_VERTEX_SHADER = 0,
-    MODEL_VERTEX_SHADER,
-    VERTEX_SHADER_MAX
-};
-
-enum fragment_shaders {
-    BASIC_FRAGMENT_SHADER = VERTEX_SHADER_MAX,
-    MODEL_FRAGMENT_SHADER,
-    FRAGMENT_SHADER_MAX
-};
-
 #endif

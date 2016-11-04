@@ -8,7 +8,7 @@ void DrawState::setUniforms() {
     updateModelMatrix();
     updateViewMatrix();
     updateProjectionMatrix();
-    updateLights();
+    updateLightsAndColors();
 }
 
 void DrawState::setModelMat(glm::mat4 mat) {
@@ -66,7 +66,8 @@ void DrawState::initShaders() {
     shaders[BASIC_PROGRAM] = ShaderProgram("shaders/vert_basic.vert", "shaders/frag_basic.frag");
     shaders[MODEL_PROGRAM] = ShaderProgram("shaders/vert_model.vert", "shaders/frag_model.frag");
     shaders[IMAGE_PROGRAM] = ShaderProgram("shaders/vert_image.vert", "shaders/frag_image.frag");
-    shaders[BASIC_NO_COLOR_PROGRAM] = ShaderProgram("shaders/vert_basic_no_color.vert", "shaders/frag_basic_no_color.frag");
+    shaders[BASIC_GLOBAL_COLOR_PROGRAM] = ShaderProgram("shaders/vert_basic_global_color.vert", "shaders/frag_basic_global_color.frag");
+    shaders[BASIC_GLOBAL_COLOR_NO_LIGHT_PROGRAM] = ShaderProgram("shaders/vert_basic_global_color.vert", "shaders/frag_basic_global_color_no_light.frag");
 }
 
 void DrawState::updateUniformLocations() {
@@ -89,6 +90,8 @@ void DrawState::updateUniformLocations() {
             glGetUniformLocation(shaders[currentShader].ProgramId, "ambientStrength");
     ambientColorUniformLocation =
             glGetUniformLocation(shaders[currentShader].ProgramId, "ambientColor");
+    globalColorUniformLocation =
+            glGetUniformLocation(shaders[currentShader].ProgramId, "globalColorVar");
 }
 
 void DrawState::updateViewMatrix() {
@@ -121,12 +124,13 @@ void DrawState::updateModelMatrix() {
     glUniformMatrix3fv(normalModelUniformLocation, 1, GL_FALSE, glm::value_ptr(normalModelMatrix));
 }
 
-void DrawState::updateLights() {
+void DrawState::updateLightsAndColors() {
     glUniform3fv(diffuseAngleUniformLocation, 1, glm::value_ptr(diffuseAngle));
     glUniform3fv(diffuseColorUniformLocation, 1, glm::value_ptr(diffuseColor));
     glUniform1f(diffuseStrengthUniformLocation, diffuseStrength);
     glUniform1f(ambientStrengthUniformLocation, ambientStrength);
     glUniform3fv(ambientColorUniformLocation, 1, glm::value_ptr(ambientColor));
+    glUniform3fv(globalColorUniformLocation, 1, glm::value_ptr(globalColor));
 }
 
 void DrawState::useViewMat(glm::mat4 v){
