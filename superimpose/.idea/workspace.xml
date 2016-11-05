@@ -47,17 +47,7 @@
     </ADDITIONAL_GENERATION_ENVIRONMENT>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="043347cd-24c2-40d3-bc3b-773afd71b551" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/shapes/Cone.cpp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/shapes/Cone.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/util/SelectBox.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/main.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shapes/Sphere.cpp" afterPath="$PROJECT_DIR$/shapes/Sphere.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/util.cpp" afterPath="$PROJECT_DIR$/util/util.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/util.h" afterPath="$PROJECT_DIR$/util/util.h" />
-    </list>
+    <list default="true" id="043347cd-24c2-40d3-bc3b-773afd71b551" name="Default" comment="" />
     <ignored path="opengl_0.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -79,7 +69,7 @@
       <file leaf-file-name="main.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="618">
+            <state relative-caret-position="3564">
               <caret line="246" column="24" selection-start-line="246" selection-start-column="24" selection-end-line="246" selection-end-column="24" />
               <folding>
                 <element signature="e#21#41#0" expanded="true" />
@@ -645,16 +635,16 @@
       <workItem from="1477850209672" duration="26780000" />
       <workItem from="1478053578487" duration="1202000" />
       <workItem from="1478062449272" duration="4600000" />
-      <workItem from="1478237021382" duration="32401000" />
+      <workItem from="1478237021382" duration="33327000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="158779000" />
+    <option name="totallyTimeSpent" value="159705000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1280" y="24" width="1920" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14707433" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -996,7 +986,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="618">
+        <state relative-caret-position="3564">
           <caret line="246" column="24" selection-start-line="246" selection-start-column="24" selection-end-line="246" selection-end-column="24" />
           <folding>
             <element signature="e#21#41#0" expanded="true" />
