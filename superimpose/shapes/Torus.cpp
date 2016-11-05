@@ -1,10 +1,10 @@
 //
-// Created by john on 10/21/16.
+// Created by john on 11/04/16.
 //
 
-#include "Sphere.h"
+#include "Torus.h"
 
-Sphere::Sphere(GLfloat r) {
+Torus::Torus(GLfloat r1, GLfloat r2) {
     /* Structure:
      * vertices (3), normal (3), color (3)
      */
@@ -17,21 +17,24 @@ Sphere::Sphere(GLfloat r) {
     int index = 0;
 
     for(int theta = 0; theta <= divisions * 2; theta++){
-        for(int phi = -1 * divisions; phi <= divisions; phi++){
+        GLfloat tAng = theta * step;
+        GLfloat rimX = r1 * sin(tAng);
+        GLfloat rimY = 0;
+        GLfloat rimZ = r1 * cos(tAng);
+        for(int phi = 0; phi <= divisions * 2; phi++){
             GLfloat pAng = phi * step;
-            GLfloat tAng = theta * step;
 
-            GLfloat x = r * sin(tAng) * cos(pAng);
-            GLfloat y = r * sin(tAng) * sin(pAng);
-            GLfloat z = r * cos(tAng);
+            GLfloat x = r2 * sin(tAng) * cos(pAng) + rimX;
+            GLfloat y = r2 * sin(pAng) + rimY;
+            GLfloat z = r2 * cos(tAng) * cos(pAng) + rimZ;
 
             vertices.push_back(x);
             vertices.push_back(y);
             vertices.push_back(z);
 
-            normals.push_back(x);
-            normals.push_back(y);
-            normals.push_back(z);
+            normals.push_back(x - rimX);
+            normals.push_back(y - rimY);
+            normals.push_back(z - rimZ);
 
             if(index >= 2 * divisions + 2) {
                 indices.push_back(index);
@@ -42,6 +45,7 @@ Sphere::Sphere(GLfloat r) {
                 indices.push_back(index - 2 * divisions - 2);
                 indices.push_back(index - 2 * divisions - 1);
             }
+
             index++;
         }
     }
@@ -73,7 +77,7 @@ Sphere::Sphere(GLfloat r) {
     glBindVertexArray(0);
 }
 
-void Sphere::draw() {
+void Torus::draw() {
     glFrontFace(GL_CCW);
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, 0);

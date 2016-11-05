@@ -30,3 +30,14 @@ GLint TextureFromFile(const char* path, string directory)
     SOIL_free_image_data(image);
     return textureID;
 }
+
+int sumPixels(int upperX, int upperY, int lowerX, int lowerY, cv::Mat& image) {
+    int sum = 0;
+    for (int i = upperY; i <= lowerY; i++) {
+        uchar *row = image.ptr<uchar>(i);
+        for (int j = upperX; j <= lowerX; j++) {
+            sum += row[j];
+        }
+    }
+    return sum;
+}

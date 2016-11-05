@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <GL/glew.h>
+#include <opencv2/opencv.hpp>
 #include "../lib/glm/vec2.hpp"
 #include "../lib/assimp-3.3.1/include/assimp/types.h"
 #include "../lib/glm/vec3.hpp"
@@ -29,5 +30,7 @@ struct Texture {
 string myReadFile(string name);
 
 GLint TextureFromFile(const char* path, string directory);
+
+int sumPixels(int upperX, int upperY, int lowerX, int lowerY, cv::Mat& image);
 
 #endif
